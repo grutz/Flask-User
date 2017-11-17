@@ -266,6 +266,8 @@ class UserManager(object):
                     # update the hash
                     new_hash = self.hash_password(password)
                     self.update_password(user, new_hash)
+        if not verified:
+            signals.user_invalid_password.send(current_app._get_current_object(), user=user)
         return verified
 
     def generate_token(self, user_id):
@@ -308,6 +310,8 @@ class UserManager(object):
         else:
             user = self.db_adapter.ifind_first_object(self.db_adapter.UserClass, username=username)
 
+        if not user:
+            signals.user_invalid_username_or_email(current_app._get_current_object(), username)
         return user
 
 
@@ -329,6 +333,8 @@ class UserManager(object):
             else:
                 user = self.db_adapter.ifind_first_object(self.db_adapter.UserClass, email=email)
 
+        if not user:
+            signals.user_invalid_username_or_email(current_app._get_current_object(), email)
         return (user, user_email)
 
     def email_is_available(self, new_email):

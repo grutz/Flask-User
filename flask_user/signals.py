@@ -43,3 +43,8 @@ user_reset_password = _signals.signal('user.user_reset_password')
 # Signal sent just after a user sent an invitation  # TODO: Not yet implemented
 user_sent_invitation = _signals.signal('user.user_sent_invitation')
 
+# Signal when an invalid password is used
+user_invalid_password = _signals.signal('user.invalid_password')
+
+# Signal when an invalid username or email is used
+user_invalid_username_or_email = _signals.signal('user.invalid_username_or_email')
